@@ -1,4 +1,4 @@
 "# DEMO_REST" 
 
 
-an pyhton to do web app to demonstarte functions of  REST API
+an python flask app to demonstrate functions of  REST API

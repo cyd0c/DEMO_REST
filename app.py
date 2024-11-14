@@ -4,7 +4,7 @@ from flask_swagger_ui import get_swaggerui_blueprint
 app = Flask(__name__)
 # Swagger UI Configuration
 SWAGGER_URL = '/docs'  # URL for accessing Swagger UI
-API_URL = '/static/swagger.yaml'  # Path to the Swagger YAML file
+API_URL = '/swagger.yaml'  # Path to the Swagger YAML file
 
 # Swagger UI Blueprint setup
 swagger_ui_blueprint = get_swaggerui_blueprint(SWAGGER_URL, API_URL, config={'app_name': "Item Management API"})

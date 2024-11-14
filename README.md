@@ -1,4 +1,4 @@
 "# DEMO_REST" 
 
 
-a python flask app to demonstrate functions of  REST API
+a sample flask api with swagger docs

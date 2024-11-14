@@ -1,54 +1,55 @@
-from flask import Flask, request, jsonify, render_template, redirect, url_for
+from flask import Flask, jsonify, request
+from flask_swagger_ui import get_swaggerui_blueprint
 
 app = Flask(__name__)
+# Swagger UI Configuration
+SWAGGER_URL = '/docs'  # URL for accessing Swagger UI
+API_URL = '/static/swagger.yaml'  # Path to the Swagger YAML file
 
-# Temporary storage for tasks
-tasks = []
-task_id_counter = 1
+# Swagger UI Blueprint setup
+swagger_ui_blueprint = get_swaggerui_blueprint(SWAGGER_URL, API_URL, config={'app_name': "Item Management API"})
+app.register_blueprint(swagger_ui_blueprint, url_prefix=SWAGGER_URL)
 
-# Serve the HTML page
+items = [
+    {'id': 1, 'name': 'Item 1'},
+    {'id': 2, 'name': 'Item 2'},
+    {'id': 3, 'name': 'Item 3'}
+]
+
 @app.route('/')
-def index():
-    return render_template('index.html', tasks=tasks)
-
-# GET all tasks
-@app.route('/tasks', methods=['GET'])
-def get_tasks():
-    return jsonify(tasks)
-
-# POST a new task
-@app.route('/tasks', methods=['POST'])
-def add_task():
-    global task_id_counter
-    title = request.form.get('title')
+def home():
     
-    task = {
-        'id': task_id_counter,
-        'title': title,
-        'completed': False
-    }
-    tasks.append(task)
-    task_id_counter += 1
-    return redirect(url_for('index'))  # Redirect back to the index page
+    return "Welcome to the Flask API!"
 
-# PUT to update a task
-@app.route('/tasks/<int:task_id>', methods=['POST'])
-def update_task(task_id):
-    title = request.form.get('title')
-    task = next((t for t in tasks if t['id'] == task_id), None)
-    
-    if task is None:
-        return jsonify({'error': 'Task not found'}), 404
+# Get all items (GET request)
+@app.route('/items', methods=['GET'])
+def get_items():
+    return jsonify(items)
 
-    task['title'] = title  # Update title
-    return redirect(url_for('index'))  # Redirect back to the index page
+# Create a new item (POST request)
+@app.route('/items', methods=['POST'])
+def create_item():
+    new_item = request.get_json()  # Get the data from the request
+    items.append(new_item)  # Add the new item to the list
+    return jsonify(new_item), 201  # Return the new item with a 201 status code
 
-# DELETE a task
-@app.route('/tasks/<int:task_id>/delete', methods=['POST'])
-def delete_task(task_id):
-    global tasks
-    tasks = [t for t in tasks if t['id'] != task_id]
-    return redirect(url_for('index'))  # Redirect back to the index page
+# Update an item (PUT request)
+@app.route('/items/<int:item_id>', methods=['PUT'])
+def update_item(item_id):
+    item = next((i for i in items if i['id'] == item_id), None)
+    if item is None:
+        return jsonify({'message': 'Item not found'}), 404
+
+    updated_data = request.get_json()  # Get the updated data from the request
+    item.update(updated_data)  # Update the item
+    return jsonify(item), 200  # Return the updated item with a 200 status code
+
+# Delete an item (DELETE request)
+@app.route('/items/<int:item_id>', methods=['DELETE'])
+def delete_item(item_id):
+    global items
+    items = [item for item in items if item['id'] != item_id]  # Remove the item by ID
+    return jsonify({'message': 'Item deleted'}), 200
 
 if __name__ == '__main__':
     app.run(debug=True)

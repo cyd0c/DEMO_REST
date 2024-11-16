@@ -24,10 +24,12 @@ The Item Management API is a simple RESTful API built with Flask to manage a lis
 ```bash
 git clone https://github.com/your-repo/item-management-api.git
 cd item-management-api
+```
 Install Dependencies
-bash
-Copy code
+
+```bash
 pip install flask flask-swagger-ui
+```
 Run the Application
 bash
 Copy code

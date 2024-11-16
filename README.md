@@ -31,97 +31,102 @@ Install Dependencies
 pip install flask flask-swagger-ui
 ```
 Run the Application
-bash
-Copy code
+```bash
 python app.py
+```
 Access the API
+```
 Home page: http://localhost:5000/
 Swagger UI: http://localhost:5000/docs
+```
 API Endpoints
 1. GET /
 Description: Returns a welcome message.
 Response:
 
-json
-Copy code
+```json
 "Welcome to the Flask API!"
+```
 2. GET /items
 Description: Retrieves a list of all items.
 Response:
 
-json
-Copy code
+```json
+
 [
   {"id": 1, "name": "Item 1"},
   {"id": 2, "name": "Item 2"},
   {"id": 3, "name": "Item 3"}
 ]
+```
 3. POST /items
 Description: Creates a new item.
 Request Body:
 
-json
-Copy code
+```json
+
 {
   "id": 4,
   "name": "Item 4"
 }
+```
 Response:
 
-json
-Copy code
+```json
+
 {
   "id": 4,
   "name": "Item 4"
 }
+```
 4. PUT /items/{item_id}
 Description: Updates an existing item.
 Request Parameters:
 
 item_id (integer) - ID of the item to update.
 Request Body:
-json
-Copy code
+```json
+
 {
   "name": "Updated Item 1"
 }
+```
 Response:
 
-json
-Copy code
+```json
+
 {
   "id": 1,
   "name": "Updated Item 1"
 }
+```
 5. DELETE /items/{item_id}
 Description: Deletes an item by ID.
 Request Parameters:
 
 item_id (integer) - ID of the item to delete.
 Response:
-json
-Copy code
+```json
+
 {
   "message": "Item deleted"
 }
+```
 Swagger UI Integration
 What is Swagger UI?
 Swagger UI provides an interactive web interface to test API endpoints. It uses a YAML file to define the API schema, making it easier for developers and testers to understand and interact with the API.
 
 Configuring Swagger UI
-Install Flask-Swagger-UI
-bash
-Copy code
-pip install flask-swagger-ui
-Setup in app.py
-python
-Copy code
+
+```python
+
 from flask_swagger_ui import get_swaggerui_blueprint
 
 SWAGGER_URL = '/docs'
 API_URL = '/static/swagger.yaml'
 swagger_ui_blueprint = get_swaggerui_blueprint(SWAGGER_URL, API_URL, config={'app_name': "Item Management API"})
 app.register_blueprint(swagger_ui_blueprint, url_prefix=SWAGGER_URL)
+```
 Create swagger.yaml
 The swagger.yaml file defines the API endpoints, parameters, and responses. Place it in the static directory.
 
@@ -131,8 +136,8 @@ The swagger.yaml file uses the Swagger 2.0 format to define the API schema:
 Title and Description
 Provides details about the API.
 
-yaml
-Copy code
+```yaml
+
 info:
   title: "Item Management API"
   description: "A simple API to manage items"
@@ -140,10 +145,11 @@ info:
 Paths
 Defines endpoints, methods, parameters, and responses.
 
+```
 Example: GET /items
 
-yaml
-Copy code
+```yaml
+
 /items:
   get:
     summary: "Get all items"
@@ -160,6 +166,8 @@ Copy code
                 type: "integer"
               name:
                 type: "string"
+
+```
 Testing the API
 Open Swagger UI: http://localhost:5000/docs
 Test endpoints directly from the web interface by clicking on the available routes and providing the necessary input.

@@ -127,8 +127,8 @@ API_URL = '/static/swagger.yaml'
 swagger_ui_blueprint = get_swaggerui_blueprint(SWAGGER_URL, API_URL, config={'app_name': "Item Management API"})
 app.register_blueprint(swagger_ui_blueprint, url_prefix=SWAGGER_URL)
 ```
-Create swagger.yaml
-The swagger.yaml file defines the API endpoints, parameters, and responses. Place it in the static directory.
+
+The swagger.yaml file defines the API endpoints, parameters, and responses. Placed it in the static directory.
 
 YAML File Explanation
 The swagger.yaml file uses the Swagger 2.0 format to define the API schema:
